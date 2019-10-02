@@ -61,3 +61,34 @@ for (var k = 0; k < PHOTOCARDS_MAX; k++) {
 // вставка фрагмента
 var setupPhotoCard = document.querySelector('.pictures');
 setupPhotoCard.appendChild(fragment);
+
+// карточка увеличенной фотографии
+var bigPhotoCard = document.querySelector('.big-picture');
+bigPhotoCard.classList.remove('hidden');
+bigPhotoCard.querySelector('.big-picture img').src = photoCardItems[0].url;
+bigPhotoCard.querySelector('.likes-count').textContent = photoCardItems[0].likes;
+bigPhotoCard.querySelector('.comments-count').textContent = photoCardItems[0].comments.length;
+bigPhotoCard.querySelector('.social__caption').textContent = photoCardItems[0].description;
+
+// разметка комментариев
+// обращение к шаблону верстки карточки фото
+var commentsTemplate = document.querySelector('.social__comment');
+
+// функция для копирования и вставки типовых комментариев
+var renderPhotoСomments = function (c) {
+  var photoСommentElement = commentsTemplate.cloneNode(true);
+  photoСommentElement.querySelector('.social__picture').src = 'img/avatar-' + getRandomNumber(1, 6) + '.svg';
+  photoСommentElement.querySelector('.social__picture').alt = onePhotoComments[c].name;
+  photoСommentElement.querySelector('.social__text').textContent = onePhotoComments[c].message;
+  return photoСommentElement;
+};
+
+var fragmentComments = document.createDocumentFragment();
+for (var c = 0; c < COMMENTS_NUMBER; c++) {
+  fragmentComments.appendChild(renderPhotoСomments(c));
+}
+document.querySelector('.social__comments').appendChild(fragmentComments);
+
+// скрытие блока счетчика комментариев и загрузки новых комментариев
+bigPhotoCard.querySelector('.social__comment-count').classList.add('visually-hidden');
+bigPhotoCard.querySelector('.comments-loader').classList.add('visually-hidden');
