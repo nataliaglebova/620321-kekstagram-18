@@ -64,7 +64,7 @@ setupPhotoCard.appendChild(fragment);
 
 // карточка увеличенной фотографии
 var bigPhotoCard = document.querySelector('.big-picture');
-bigPhotoCard.classList.remove('hidden');
+// bigPhotoCard.classList.remove('hidden');
 bigPhotoCard.querySelector('.big-picture img').src = photoCardItems[0].url;
 bigPhotoCard.querySelector('.likes-count').textContent = photoCardItems[0].likes;
 bigPhotoCard.querySelector('.comments-count').textContent = photoCardItems[0].comments.length;
@@ -92,3 +92,100 @@ document.querySelector('.social__comments').appendChild(fragmentComments);
 // скрытие блока счетчика комментариев и загрузки новых комментариев
 bigPhotoCard.querySelector('.social__comment-count').classList.add('visually-hidden');
 bigPhotoCard.querySelector('.comments-loader').classList.add('visually-hidden');
+
+// открытие окна редактора при загрузке изображения
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
+var uploadField = document.querySelector('#upload-file');
+var photoEditor = document.querySelector('.img-upload__overlay');
+// сброс значения поля выбора
+var uploadPhotoForm = setupPhotoCard.querySelector('.img-upload__form');
+// функция закрытия окна
+var closePhotoEditor = function () {
+  photoEditor.classList.add('hidden');
+  uploadPhotoForm.reset();
+};
+// функция закрытия по ESC
+var hashTagsInput = photoEditor.querySelector('.text__hashtags');
+var descriptionInput = photoEditor.querySelector('.text__description');
+var onPhotoEditorPress = function (evt) {
+  if (evt.keyCode === ESC_KEYCODE && ((evt.target !== hashTagsInput) && (evt.target !== descriptionInput))) {
+    closePhotoEditor();
+  }
+};
+// функция закрытия по ENTER
+var onEditorExitPress = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE) {
+    closePhotoEditor();
+  }
+};
+// функция открытия окна редактора
+var openPhotoEditor = function () {
+  photoEditor.classList.remove('hidden');
+};
+
+uploadField.addEventListener('change', openPhotoEditor);
+document.addEventListener('keydown', onPhotoEditorPress);
+var photoEditorExit = photoEditor.querySelector('#upload-cancel');
+photoEditorExit.addEventListener('click', closePhotoEditor);
+photoEditorExit.addEventListener('keydown', onEditorExitPress);
+
+// применение эффекта для изображения
+var effectPin = photoEditor.querySelector('.effect-level__pin');
+var customPhoto = photoEditor.querySelector('.img-upload__preview img');
+var SCALE_LENGTH = 435;
+var START_POINT = 718;
+var chromePreview = photoEditor.querySelector('#effect-chrome');
+var sepiaPreview = photoEditor.querySelector('#effect-sepia');
+var marvinPreview = photoEditor.querySelector('#effect-marvin');
+var phobosPreview = photoEditor.querySelector('#effect-phobos');
+var heatPreview = photoEditor.querySelector('#effect-heat');
+var noneEffect = photoEditor.querySelector('#effect-none');
+
+effectPin.addEventListener('mouseup', function (evt) {
+  var currentPosition = evt.screenX;
+  if (chromePreview.checked) {
+    customPhoto.classList.add('effects__preview--chrome');
+    customPhoto.style.filter = 'grayscale' + '(' + (currentPosition - START_POINT) / SCALE_LENGTH + ')';
+  } else if (sepiaPreview.checked) {
+    customPhoto.classList.add('effects__preview--sepia');
+    customPhoto.style.filter = 'sepia' + '(' + (currentPosition - START_POINT) / SCALE_LENGTH + ')';
+  } else if (marvinPreview.checked) {
+    customPhoto.classList.add('effects__preview--marvin');
+    customPhoto.style.filter = 'invert' + '(' + Math.round((currentPosition - START_POINT) / SCALE_LENGTH * 100) + '%' + ')';
+  } else if (phobosPreview.checked) {
+    customPhoto.classList.add('effects__preview--phobos');
+    // как правильно реализовать до 3 рх?
+    customPhoto.style.filter = 'blur' + '(' + 3 / ((currentPosition - START_POINT) / SCALE_LENGTH) + 'px' + ')';
+  } else if (heatPreview.checked) {
+    customPhoto.classList.add('effects__preview--heat');
+    // как правильно реализовать от 1 до 3?
+    customPhoto.style.filter = 'brightness' + '(' + 3 / ((currentPosition - START_POINT) / SCALE_LENGTH) + ')';
+  } else if (noneEffect.checked) {
+    // классы почему то не удаляются
+    customPhoto.classList.remove();
+  }
+});
+
+// хэш-тэги
+var tagsInput = document.querySelector('.text__hashtags').value;
+//  не срабатывает
+var tagsList = tagsInput.split('#', 5);
+var validateTags = function (arr) {
+  for (var x = 0; x < arr.length; x++) {
+    if (arr[x].charAt(0) !== '#') {
+      tagsInput.setCustomValidity('Хэш-тэг должен начинаться с символа #');
+    }
+    if (arr[x].length > 20) {
+      tagsInput.setCustomValidity('Хэш-тэг не должен быть длинее 20 символов, включая #');
+    }
+    if (arr[x] === '#') {
+      tagsInput.setCustomValidity('Хэш-тэг не должен состоять только из символа #');
+    }
+  }
+};
+var submitPhoto = document.querySelector('.img-upload__submit');
+submitPhoto.addEventListener('click', function () {
+  validateTags(tagsList);
+});
