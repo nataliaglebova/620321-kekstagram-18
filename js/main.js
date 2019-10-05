@@ -169,23 +169,41 @@ effectPin.addEventListener('mouseup', function (evt) {
 });
 
 // хэш-тэги
-var tagsInput = document.querySelector('.text__hashtags').value;
-//  не срабатывает
-var tagsList = tagsInput.split('#', 5);
-var validateTags = function (arr) {
+var tagsField = document.querySelector('.text__hashtags');
+// функция валидации тэгов
+var validateTags = function (arr, textInput) {
   for (var x = 0; x < arr.length; x++) {
-    if (arr[x].charAt(0) !== '#') {
-      tagsInput.setCustomValidity('Хэш-тэг должен начинаться с символа #');
-    }
-    if (arr[x].length > 20) {
-      tagsInput.setCustomValidity('Хэш-тэг не должен быть длинее 20 символов, включая #');
-    }
     if (arr[x] === '#') {
-      tagsInput.setCustomValidity('Хэш-тэг не должен состоять только из символа #');
+      textInput.setCustomValidity('Хэш-тэг не должен состоять только из символа #');
+    } if (arr[x].length > 20) {
+      textInput.setCustomValidity('Хэш-тэг не должен быть длинее 20 символов, включая #');
+    } if (arr[x].charAt(0) !== '#') {
+      textInput.setCustomValidity('Хэш-тэг должен начинаться с символа #');
+    } if (arr[x] === ' ') {
+      textInput.setCustomValidity('Хэш-тэги должны разделяться только одним пробелом');
     }
   }
 };
-var submitPhoto = document.querySelector('.img-upload__submit');
-submitPhoto.addEventListener('click', function () {
-  validateTags(tagsList);
-});
+var tagsList = [];
+var onTagsFieldChange = function () {
+  tagsList = tagsField.value.split(' ', 5);
+  validateTags(tagsList, tagsField);
+};
+
+tagsField.addEventListener('change', onTagsFieldChange);
+
+/* как перезапустить валидацию при исправлении
+ tagsField.addEventListener('invalid', function () {
+  tagsField.removeEventListener('change', onTagsFieldChange);
+  tagsField.addEventListener('change', onTagsFieldChange);
+}); */
+
+// валидация комментария
+var commentsField = photoEditor.querySelector('.text__description');
+var DESCRIPTION_MAX_LENGTH = 140;
+var onCommentsFieldChange = function () {
+  if (commentsField.value.length > DESCRIPTION_MAX_LENGTH) {
+    commentsField.setCustomValidity('Длина комментария не может составлять больше 140 символов');
+  }
+};
+commentsField.addEventListener('change', onCommentsFieldChange);
