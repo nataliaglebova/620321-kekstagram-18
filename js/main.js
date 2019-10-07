@@ -183,12 +183,33 @@ effectPin.addEventListener('mouseup', function (evt) {
   } else if (phobosPreview.checked) {
     customPhoto.style.filter = 'blur' + '(' + 3 / calculateEffectValue(evt, 0, 3) + 'px' + ')';
   } else if (heatPreview.checked) {
-    customPhoto.classList.add('effects__preview--heat');
-    // как правильно реализовать от 1 до 3?
-    customPhoto.style.filter = 'brightness' + '(' + 3 / ((currentPosition - START_POINT) / SCALE_LENGTH) + ')';
-  } else if (noneEffect.checked) {
-    // классы почему то не удаляются
-    customPhoto.classList.remove();
+    customPhoto.style.filter = 'brightness' + '(' + 3 / calculateEffectValue(evt, 1, 3) + ')';
+  }
+});
+// изменение размера изображения
+var smallerImgButton = photoEditor.querySelector('.scale__control--smaller');
+var biggerImgButton = photoEditor.querySelector('.scale__control--bigger');
+var scaleInput = photoEditor.querySelector('.scale__control--value');
+scaleInput.setAttribute('value', '100%');
+var sizeImg = photoEditor.querySelector('.scale__control--value').value.slice(0, -1);
+var SIZE_STEP = 25;
+var MAX_SIZE = 100;
+
+var onResizeButtonsClick = function (size) {
+  customPhoto.style.filter = 'transform' + ':' + 'scale' + '(' + size / 100 + ')';
+  scaleInput.setAttribute('value', size + '%');
+};
+smallerImgButton.addEventListener('click', function () {
+  var currentSize = sizeImg - SIZE_STEP;
+  if (currentSize <= SIZE_STEP) {
+    currentSize = SIZE_STEP;
+  }
+  sizeImg = currentSize;
+  onResizeButtonsClick(sizeImg);
+});
+biggerImgButton.addEventListener('click', function () {
+  var currentSize = sizeImg + SIZE_STEP;
+  if (currentSize >= MAX_SIZE) {
   }
   sizeImg = currentSize;
   onResizeButtonsClick(sizeImg);
