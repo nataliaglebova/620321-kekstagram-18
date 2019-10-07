@@ -210,6 +210,7 @@ smallerImgButton.addEventListener('click', function () {
 biggerImgButton.addEventListener('click', function () {
   var currentSize = sizeImg + SIZE_STEP;
   if (currentSize >= MAX_SIZE) {
+    currentSize = MAX_SIZE;
   }
   sizeImg = currentSize;
   onResizeButtonsClick(sizeImg);
