@@ -134,8 +134,6 @@ photoEditorExit.addEventListener('keydown', onEditorExitPress);
 // применение эффекта для изображения
 var effectPin = photoEditor.querySelector('.effect-level__pin');
 var customPhoto = photoEditor.querySelector('.img-upload__preview img');
-var SCALE_LENGTH = 435;
-var START_POINT = 718;
 var chromePreview = photoEditor.querySelector('#effect-chrome');
 var sepiaPreview = photoEditor.querySelector('#effect-sepia');
 var marvinPreview = photoEditor.querySelector('#effect-marvin');
@@ -143,21 +141,47 @@ var phobosPreview = photoEditor.querySelector('#effect-phobos');
 var heatPreview = photoEditor.querySelector('#effect-heat');
 var noneEffect = photoEditor.querySelector('#effect-none');
 
+// применение фильтров при выборе превью
+chromePreview.addEventListener('click', function () {
+  customPhoto.classList.add('effects__preview--chrome');
+});
+sepiaPreview.addEventListener('click', function () {
+  customPhoto.classList.add('effects__preview--sepia');
+});
+marvinPreview.addEventListener('click', function () {
+  customPhoto.classList.add('effects__preview--marvin');
+});
+phobosPreview.addEventListener('click', function () {
+  customPhoto.classList.add('effects__preview--phobos');
+});
+heatPreview.addEventListener('click', function () {
+  customPhoto.classList.add('effects__preview--heat');
+});
+
+var deleteEffect = function () {
+  var classes = customPhoto.classList;
+  // выдает ошибку если значений более 1
+  customPhoto.classList.remove(classes);
+};
+noneEffect.addEventListener('click', deleteEffect);
+
+// изменение силы эффекта
+var calculateEffectValue = function (evt, minValue, maxValue) {
+  var effectValue = minValue + (maxValue - minValue) / effectPin.parentElement.offsetWidth * evt.offsetX;
+  return effectValue;
+};
+
 effectPin.addEventListener('mouseup', function (evt) {
-  var currentPosition = evt.screenX;
+  // var currentPosition = evt.screenX;
   if (chromePreview.checked) {
-    customPhoto.classList.add('effects__preview--chrome');
-    customPhoto.style.filter = 'grayscale' + '(' + (currentPosition - START_POINT) / SCALE_LENGTH + ')';
+    // получается крайне маленькое число, возможно нужно добавить множитель или округление?
+    customPhoto.style.filter = 'grayscale' + '(' + calculateEffectValue(evt, 0, 1) + ')';
   } else if (sepiaPreview.checked) {
-    customPhoto.classList.add('effects__preview--sepia');
-    customPhoto.style.filter = 'sepia' + '(' + (currentPosition - START_POINT) / SCALE_LENGTH + ')';
+    customPhoto.style.filter = 'sepia' + '(' + calculateEffectValue(evt, 0, 1) + ')';
   } else if (marvinPreview.checked) {
-    customPhoto.classList.add('effects__preview--marvin');
-    customPhoto.style.filter = 'invert' + '(' + Math.round((currentPosition - START_POINT) / SCALE_LENGTH * 100) + '%' + ')';
+    customPhoto.style.filter = 'invert' + '(' + calculateEffectValue(evt, 0, 100) + '%' + ')';
   } else if (phobosPreview.checked) {
-    customPhoto.classList.add('effects__preview--phobos');
-    // как правильно реализовать до 3 рх?
-    customPhoto.style.filter = 'blur' + '(' + 3 / ((currentPosition - START_POINT) / SCALE_LENGTH) + 'px' + ')';
+    customPhoto.style.filter = 'blur' + '(' + 3 / calculateEffectValue(evt, 0, 3) + 'px' + ')';
   } else if (heatPreview.checked) {
     customPhoto.classList.add('effects__preview--heat');
     // как правильно реализовать от 1 до 3?
@@ -166,6 +190,8 @@ effectPin.addEventListener('mouseup', function (evt) {
     // классы почему то не удаляются
     customPhoto.classList.remove();
   }
+  sizeImg = currentSize;
+  onResizeButtonsClick(sizeImg);
 });
 
 // хэш-тэги
@@ -173,6 +199,7 @@ var tagsField = document.querySelector('.text__hashtags');
 // функция валидации тэгов
 var validateTags = function (arr, textInput) {
   for (var x = 0; x < arr.length; x++) {
+    textInput.setCustomValidity(' ');
     if (arr[x] === '#') {
       textInput.setCustomValidity('Хэш-тэг не должен состоять только из символа #');
     } if (arr[x].length > 20) {
@@ -192,17 +219,12 @@ var onTagsFieldChange = function () {
 
 tagsField.addEventListener('change', onTagsFieldChange);
 
-/* как перезапустить валидацию при исправлении
- tagsField.addEventListener('invalid', function () {
-  tagsField.removeEventListener('change', onTagsFieldChange);
-  tagsField.addEventListener('change', onTagsFieldChange);
-}); */
-
 // валидация комментария
 var commentsField = photoEditor.querySelector('.text__description');
 var DESCRIPTION_MAX_LENGTH = 140;
 var onCommentsFieldChange = function () {
   if (commentsField.value.length > DESCRIPTION_MAX_LENGTH) {
+    commentsField.setCustomValidity(' ');
     commentsField.setCustomValidity('Длина комментария не может составлять больше 140 символов');
   }
 };
