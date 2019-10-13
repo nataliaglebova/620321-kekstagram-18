@@ -172,9 +172,7 @@ var calculateEffectValue = function (evt, minValue, maxValue) {
 };
 
 effectPin.addEventListener('mouseup', function (evt) {
-  // var currentPosition = evt.screenX;
   if (chromePreview.checked) {
-    // получается крайне маленькое число, возможно нужно добавить множитель или округление?
     customPhoto.style.filter = 'grayscale' + '(' + calculateEffectValue(evt, 0, 1) + ')';
   } else if (sepiaPreview.checked) {
     customPhoto.style.filter = 'sepia' + '(' + calculateEffectValue(evt, 0, 1) + ')';
@@ -191,12 +189,12 @@ var smallerImgButton = photoEditor.querySelector('.scale__control--smaller');
 var biggerImgButton = photoEditor.querySelector('.scale__control--bigger');
 var scaleInput = photoEditor.querySelector('.scale__control--value');
 scaleInput.setAttribute('value', '100%');
-var sizeImg = photoEditor.querySelector('.scale__control--value').value.slice(0, -1);
+var sizeImg = parseInt(photoEditor.querySelector('.scale__control--value').value, 10);
 var SIZE_STEP = 25;
 var MAX_SIZE = 100;
 
 var onResizeButtonsClick = function (size) {
-  customPhoto.style.filter = 'transform' + ':' + 'scale' + '(' + size / 100 + ')';
+  customPhoto.style.transform = 'scale' + '(' + size / 100 + ')';
   scaleInput.setAttribute('value', size + '%');
 };
 smallerImgButton.addEventListener('click', function () {
@@ -218,10 +216,12 @@ biggerImgButton.addEventListener('click', function () {
 
 // хэш-тэги
 var tagsField = document.querySelector('.text__hashtags');
+var MAX_TAGS = 5;
+
 // функция валидации тэгов
 var validateTags = function (arr, textInput) {
+  textInput.setCustomValidity('');
   for (var x = 0; x < arr.length; x++) {
-    textInput.setCustomValidity(' ');
     if (arr[x] === '#') {
       textInput.setCustomValidity('Хэш-тэг не должен состоять только из символа #');
     } if (arr[x].length > 20) {
@@ -232,14 +232,30 @@ var validateTags = function (arr, textInput) {
       textInput.setCustomValidity('Хэш-тэги должны разделяться только одним пробелом');
     }
   }
-};
-var tagsList = [];
-var onTagsFieldChange = function () {
-  tagsList = tagsField.value.split(' ', 5);
-  validateTags(tagsList, tagsField);
+  if (arr.length > MAX_TAGS) {
+    textInput.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
+  }
 };
 
-tagsField.addEventListener('change', onTagsFieldChange);
+// проверка и удаление повторяющихся тэгов
+var sortTags = function (arr) {
+  for (var q = 0; q < arr.length; q++) {
+    for (var y = q + 1; y < arr.length; y++) {
+      if (arr[q] === arr[y]) {
+        arr.splice(y, 1);
+      }
+    }
+  }
+};
+
+
+var tagsList = [];
+tagsField.addEventListener('change', function () {
+  tagsList = tagsField.value.toLocaleLowerCase().split(' ');
+  sortTags(tagsList);
+  validateTags(tagsList, tagsField);
+}
+);
 
 // валидация комментария
 var commentsField = photoEditor.querySelector('.text__description');
@@ -251,3 +267,22 @@ var onCommentsFieldChange = function () {
   }
 };
 commentsField.addEventListener('change', onCommentsFieldChange);
+
+// отправка формы
+var formSubmitButton = uploadPhotoForm.querySelector('.img-upload__submit');
+
+var onformSubmitButtonClick = function () {
+  if (tagsField.validity.valid && commentsField.validity.valid) {
+    uploadPhotoForm.submit();
+  }
+};
+// отправка по клику
+formSubmitButton.addEventListener('click', onformSubmitButtonClick);
+
+// отправка формы при нажатии на кнопку ENTER
+var onformSubmitPress = function (evt) {
+  if (evt.keyCode === ENTER_KEYCODE && evt.target === formSubmitButton) {
+    uploadPhotoForm.submit();
+  }
+};
+formSubmitButton.addEventListener('keydown', onformSubmitPress);
