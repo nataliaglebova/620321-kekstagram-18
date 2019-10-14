@@ -159,9 +159,8 @@ heatPreview.addEventListener('click', function () {
 });
 
 var deleteEffect = function () {
-  var classes = customPhoto.classList;
   // выдает ошибку если значений более 1
-  customPhoto.classList.remove(classes);
+  customPhoto.classList.remove('effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat');
 };
 noneEffect.addEventListener('click', deleteEffect);
 
