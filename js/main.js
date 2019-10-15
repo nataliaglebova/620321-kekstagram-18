@@ -221,6 +221,11 @@ var MAX_TAGS = 5;
 var validateTags = function (arr, textInput) {
   textInput.setCustomValidity('');
   for (var x = 0; x < arr.length; x++) {
+    for (var y = x + 1; y < arr.length; y++) {
+      if (arr[x] === arr[y]) {
+        textInput.setCustomValidity('Хэш-тэги не должны повторяться');
+      }
+    }
     if (arr[x] === '#') {
       textInput.setCustomValidity('Хэш-тэг не должен состоять только из символа #');
     } if (arr[x].length > 20) {
@@ -236,22 +241,9 @@ var validateTags = function (arr, textInput) {
   }
 };
 
-// проверка и удаление повторяющихся тэгов
-var sortTags = function (arr) {
-  for (var q = 0; q < arr.length; q++) {
-    for (var y = q + 1; y < arr.length; y++) {
-      if (arr[q] === arr[y]) {
-        arr.splice(y, 1);
-      }
-    }
-  }
-};
-
-
 var tagsList = [];
 tagsField.addEventListener('change', function () {
   tagsList = tagsField.value.toLocaleLowerCase().split(' ');
-  sortTags(tagsList);
   validateTags(tagsList, tagsField);
 }
 );
