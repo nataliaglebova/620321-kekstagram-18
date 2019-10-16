@@ -159,7 +159,6 @@ heatPreview.addEventListener('click', function () {
 });
 
 var deleteEffect = function () {
-  // выдает ошибку если значений более 1
   customPhoto.classList.remove('effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat');
 };
 noneEffect.addEventListener('click', deleteEffect);
@@ -277,3 +276,17 @@ var onformSubmitPress = function (evt) {
   }
 };
 formSubmitButton.addEventListener('keydown', onformSubmitPress);
+
+
+
+
+// открытие увеличенного каждого фото
+setupPhotoCard.addEventListener('click', function (evt) {
+  if (evt.target.tagName === 'IMG') {
+    photoEditor.classList.remove('hidden');
+    var photoUrl = evt.target.src.pathname;
+    console.log(photoUrl);
+
+  };
+
+});
