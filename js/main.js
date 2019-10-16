@@ -277,3 +277,44 @@ var onformSubmitPress = function (evt) {
   }
 };
 formSubmitButton.addEventListener('keydown', onformSubmitPress);
+
+// открытие увеличенного каждого фото
+var previewImg = photoEditor.querySelectorAll('.effects__preview');
+
+
+var onPhotoImgClick = function (clckevt) {
+  if (clckevt.target.tagName === 'IMG') {
+    photoEditor.classList.remove('hidden');
+    var photoFileName = clckevt.target.src.split('/').pop();
+    var photoUrl = 'photos/' + photoFileName;
+    var currentPhoto = photoCardItems.find(function (item) {
+      return item.url === photoUrl;
+    });
+    customPhoto.src = currentPhoto.url;
+    previewImg.forEach(function (item) {
+      item.style.backgroundImage = 'url("' + photoUrl + ' ")';
+    });
+
+  }
+};
+
+var onPhotoImgPress = function (presevt) {
+  if (presevt.keyCode === ENTER_KEYCODE) {
+    if (presevt.target.tagName === 'A') {
+      photoEditor.classList.remove('hidden');
+      var loadPhoto = presevt.target.querySelector('img');
+      var photoFileName = loadPhoto.src.split('/').pop();
+      var photoUrl = 'photos/' + photoFileName;
+      var currentPhoto = photoCardItems.find(function (item) {
+        return item.url === photoUrl;
+      });
+      customPhoto.src = currentPhoto.url;
+      previewImg.forEach(function (item) {
+        item.style.backgroundImage = 'url("' + photoUrl + ' ")';
+      });
+
+    }
+  }
+};
+setupPhotoCard.addEventListener('click', onPhotoImgClick);
+setupPhotoCard.addEventListener('keydown', onPhotoImgPress);
