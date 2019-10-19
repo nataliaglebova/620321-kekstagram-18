@@ -247,8 +247,8 @@ tagsField.addEventListener('change', function () {
 var commentsField = photoEditor.querySelector('.text__description');
 var DESCRIPTION_MAX_LENGTH = 140;
 var onCommentsFieldChange = function () {
+  commentsField.setCustomValidity('');
   if (commentsField.value.length > DESCRIPTION_MAX_LENGTH) {
-    commentsField.setCustomValidity(' ');
     commentsField.setCustomValidity('Длина комментария не может составлять больше 140 символов');
   }
 };
@@ -256,14 +256,25 @@ commentsField.addEventListener('change', onCommentsFieldChange);
 
 // отправка формы
 var formSubmitButton = uploadPhotoForm.querySelector('.img-upload__submit');
+// var successPageTemplate = document.querySelector('#success').content
+//  .querySelector('.success');
+// сообщение об успешной загрузке фотографии
+/* var uploadPhotoSuccessfully = function () {
+  var fragmentSuccessPage = document.createDocumentFragment();
+  var successPage = successPageTemplate.cloneNode(true);
+  fragmentSuccessPage.appendChild(successPage);
+  document.querySelector('main').appendChild(fragmentSuccessPage);
+};*/
 
-var onformSubmitButtonClick = function () {
-  if (tagsField.validity.valid && commentsField.validity.valid) {
+var onUploadPhotoFormSubmit = function (evt) {
+  evt.preventDefault();
+  if (uploadPhotoForm.reportValidity()) {
     uploadPhotoForm.submit();
   }
 };
 // отправка по клику
-formSubmitButton.addEventListener('click', onformSubmitButtonClick);
+// formSubmitButton.addEventListener('submit', onFormSubmit);
+uploadPhotoForm.addEventListener('submit', onUploadPhotoFormSubmit);
 
 // отправка формы при нажатии на кнопку ENTER
 var onformSubmitPress = function (evt) {
