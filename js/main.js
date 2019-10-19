@@ -64,11 +64,6 @@ setupPhotoCard.appendChild(fragment);
 
 // карточка увеличенной фотографии
 var bigPhotoCard = document.querySelector('.big-picture');
-// bigPhotoCard.classList.remove('hidden');
-bigPhotoCard.querySelector('.big-picture img').src = photoCardItems[0].url;
-bigPhotoCard.querySelector('.likes-count').textContent = photoCardItems[0].likes;
-bigPhotoCard.querySelector('.comments-count').textContent = photoCardItems[0].comments.length;
-bigPhotoCard.querySelector('.social__caption').textContent = photoCardItems[0].description;
 
 // разметка комментариев
 // обращение к шаблону верстки карточки фото
@@ -252,8 +247,8 @@ tagsField.addEventListener('change', function () {
 var commentsField = photoEditor.querySelector('.text__description');
 var DESCRIPTION_MAX_LENGTH = 140;
 var onCommentsFieldChange = function () {
+  commentsField.setCustomValidity('');
   if (commentsField.value.length > DESCRIPTION_MAX_LENGTH) {
-    commentsField.setCustomValidity(' ');
     commentsField.setCustomValidity('Длина комментария не может составлять больше 140 символов');
   }
 };
@@ -261,14 +256,25 @@ commentsField.addEventListener('change', onCommentsFieldChange);
 
 // отправка формы
 var formSubmitButton = uploadPhotoForm.querySelector('.img-upload__submit');
+// var successPageTemplate = document.querySelector('#success').content
+//  .querySelector('.success');
+// сообщение об успешной загрузке фотографии
+/* var uploadPhotoSuccessfully = function () {
+  var fragmentSuccessPage = document.createDocumentFragment();
+  var successPage = successPageTemplate.cloneNode(true);
+  fragmentSuccessPage.appendChild(successPage);
+  document.querySelector('main').appendChild(fragmentSuccessPage);
+};*/
 
-var onformSubmitButtonClick = function () {
-  if (tagsField.validity.valid && commentsField.validity.valid) {
+var onUploadPhotoFormSubmit = function (evt) {
+  evt.preventDefault();
+  if (uploadPhotoForm.reportValidity()) {
     uploadPhotoForm.submit();
   }
 };
 // отправка по клику
-formSubmitButton.addEventListener('click', onformSubmitButtonClick);
+// formSubmitButton.addEventListener('submit', onFormSubmit);
+uploadPhotoForm.addEventListener('submit', onUploadPhotoFormSubmit);
 
 // отправка формы при нажатии на кнопку ENTER
 var onformSubmitPress = function (evt) {
@@ -277,3 +283,53 @@ var onformSubmitPress = function (evt) {
   }
 };
 formSubmitButton.addEventListener('keydown', onformSubmitPress);
+
+// открытие увеличенного каждого фото
+// -- по клику
+var onPhotoImgClick = function (clckevt) {
+  if (clckevt.target.tagName === 'IMG') {
+    bigPhotoCard.classList.remove('hidden');
+    var photoFileName = clckevt.target.src.split('/').pop();
+    var photoUrl = 'photos/' + photoFileName;
+    var currentPhoto = photoCardItems.find(function (item) {
+      return item.url === photoUrl;
+    });
+    bigPhotoCard.querySelector('.big-picture img').src = currentPhoto.url;
+    bigPhotoCard.querySelector('.likes-count').textContent = currentPhoto.likes;
+    bigPhotoCard.querySelector('.comments-count').textContent = currentPhoto.comments.length;
+    bigPhotoCard.querySelector('.social__caption').textContent = currentPhoto.description;
+    bigPhotoCard.querySelector('.big-picture img').alt = currentPhoto.description;
+  }
+};
+// -- по ENTER
+var onPhotoImgPress = function (presevt) {
+  if (presevt.keyCode === ENTER_KEYCODE) {
+    if (presevt.target.tagName === 'A') {
+      bigPhotoCard.classList.remove('hidden');
+      var loadPhoto = presevt.target.querySelector('img');
+      var photoFileName = loadPhoto.src.split('/').pop();
+      var photoUrl = 'photos/' + photoFileName;
+      var currentPhoto = photoCardItems.find(function (item) {
+        return item.url === photoUrl;
+      });
+      bigPhotoCard.querySelector('.big-picture img').src = currentPhoto.url;
+      bigPhotoCard.querySelector('.likes-count').textContent = currentPhoto.likes;
+      bigPhotoCard.querySelector('.comments-count').textContent = currentPhoto.comments.length;
+      bigPhotoCard.querySelector('.social__caption').textContent = currentPhoto.description;
+      bigPhotoCard.querySelector('.big-picture img').alt = currentPhoto.description;
+    }
+  }
+};
+setupPhotoCard.addEventListener('click', onPhotoImgClick);
+setupPhotoCard.addEventListener('keydown', onPhotoImgPress);
+
+// закрытие увеличенного фото
+var bigPhotoExit = bigPhotoCard.querySelector('.big-picture__cancel');
+bigPhotoExit.addEventListener('click', function () {
+  bigPhotoCard.classList.add('hidden');
+});
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    bigPhotoCard.classList.add('hidden');
+  }
+});
