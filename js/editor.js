@@ -68,24 +68,57 @@
   };
   noneEffect.addEventListener('click', deleteEffect);
 
-  // изменение силы эффекта
-  var calculateEffectValue = function (evt, minValue, maxValue) {
-    var effectValue = minValue + (maxValue - minValue) / effectPin.parentElement.offsetWidth * evt.offsetX;
-    return effectValue;
-  };
+  // изменение эффекта
+  var EFFECT_MAX_SCALE = 454;
+  var effectLine = window.photoEditor.querySelector('.effect-level__depth');
+  // передвижение пина эффектов
+  effectPin.addEventListener('mousedown', function (evt) {
+    evt.preventDefault();
+    var startCoords = {
+      x: evt.clientX,
+      y: evt.clientY
+    };
+    var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
+      var shift = {
+        x: startCoords.x - moveEvt.clientX,
+      };
+      startCoords = {
+        x: moveEvt.clientX
+      };
+      if ((effectPin.offsetLeft - shift.x) < 0) {
+        effectPin.style.left = 0 + 'px';
+      } else {
+        if ((effectPin.offsetLeft - shift.x) > EFFECT_MAX_SCALE) {
+          effectPin.style.left = EFFECT_MAX_SCALE + 'px';
+        } else {
+          effectPin.style.left = (effectPin.offsetLeft - shift.x) + 'px';
+        }
+      }
+      effectLine.style.width = effectPin.offsetLeft + 'px';
+    };
+    var calculateEffectValue = function (upevt, minValue, maxValue) {
+      var effectValue = minValue + (maxValue - minValue) / (EFFECT_MAX_SCALE / effectPin.offsetLeft);
+      return effectValue;
+    };
+    var onPinMouseUp = function (upevt) {
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onPinMouseUp);
+      if (chromePreview.checked) {
+        customPhoto.style.filter = 'grayscale' + '(' + calculateEffectValue(upevt, 0, 1) + ')';
+      } else if (sepiaPreview.checked) {
+        customPhoto.style.filter = 'sepia' + '(' + calculateEffectValue(upevt, 0, 1) + ')';
+      } else if (marvinPreview.checked) {
+        customPhoto.style.filter = 'invert' + '(' + calculateEffectValue(upevt, 0, 100) + '%' + ')';
+      } else if (phobosPreview.checked) {
+        customPhoto.style.filter = 'blur' + '(' + 3 / calculateEffectValue(upevt, 0, 3) + 'px' + ')';
+      } else if (heatPreview.checked) {
+        customPhoto.style.filter = 'brightness' + '(' + 3 / calculateEffectValue(upevt, 1, 3) + ')';
+      }
+    };
 
-  effectPin.addEventListener('mouseup', function (evt) {
-    if (chromePreview.checked) {
-      customPhoto.style.filter = 'grayscale' + '(' + calculateEffectValue(evt, 0, 1) + ')';
-    } else if (sepiaPreview.checked) {
-      customPhoto.style.filter = 'sepia' + '(' + calculateEffectValue(evt, 0, 1) + ')';
-    } else if (marvinPreview.checked) {
-      customPhoto.style.filter = 'invert' + '(' + calculateEffectValue(evt, 0, 100) + '%' + ')';
-    } else if (phobosPreview.checked) {
-      customPhoto.style.filter = 'blur' + '(' + 3 / calculateEffectValue(evt, 0, 3) + 'px' + ')';
-    } else if (heatPreview.checked) {
-      customPhoto.style.filter = 'brightness' + '(' + 3 / calculateEffectValue(evt, 1, 3) + ')';
-    }
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onPinMouseUp);
   });
   // изменение размера изображения
   var smallerImgButton = window.photoEditor.querySelector('.scale__control--smaller');
