@@ -11,7 +11,6 @@
         return item.url === photoUrl;
       });
       var elementIndex = window.photoData.photoCardItems.indexOf(currentPhoto);
-      console.log(elementIndex);
       window.bigPhotoCard.querySelector('.big-picture img').src = currentPhoto.url;
       window.bigPhotoCard.querySelector('.likes-count').textContent = currentPhoto.likes;
       window.bigPhotoCard.querySelector('.comments-count').textContent = currentPhoto.comments.length;
