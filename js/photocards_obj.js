@@ -18,14 +18,14 @@
 
   // основной массив из 25 JS объектов
   var photoCardItems = [];
-  for (var j = 0; j < window.generalData.PHOTOCARDS_MAX; j++) {
+  /* for (var j = 0; j < window.generalData.PHOTOCARDS_MAX; j++) {
     photoCardItems[j] = {
       url: 'photos/' + (j + 1) + '.jpg',
       description: 'Some words about photo',
       likes: window.generalData.getRandomNumber(15, 200),
       comments: onePhotoComments
     };
-  }
+  } */
   window.photoData = {
     commentsList: commentsList,
     onePhotoComments: onePhotoComments,

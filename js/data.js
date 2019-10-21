@@ -16,11 +16,12 @@
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
   var PHOTOCARDS_MAX = 25;
-  var COMMENTS_NUMBER = 3;
+  var COMMENTS_NUMBER = 5;
   var SIZE_PHOTO_STEP = 25;
   var MAX_SIZE_PHOTO = 100;
   var MAX_TAGS = 5;
   var DESCRIPTION_MAX_LENGTH = 140;
+  window.bigPhotoCard = document.querySelector('.big-picture');
 
   window.generalData = {
     commentsTemplates: commentsTemplates,
