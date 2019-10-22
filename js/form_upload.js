@@ -47,24 +47,46 @@
 
   // отправка формы
   var formSubmitButton = window.uploadPhotoForm.querySelector('.img-upload__submit');
-  // var successPageTemplate = document.querySelector('#success').content
-  //  .querySelector('.success');
+  var successPageTemplate = document.querySelector('#success').content
+  .querySelector('.success');
   // сообщение об успешной загрузке фотографии
-  /* var uploadPhotoSuccessfully = function () {
+  var uploadPhotoSuccessfully = function () {
+    document.querySelector('.img-upload__overlay').classList.add('hidden');
     var fragmentSuccessPage = document.createDocumentFragment();
     var successPage = successPageTemplate.cloneNode(true);
     fragmentSuccessPage.appendChild(successPage);
     document.querySelector('main').appendChild(fragmentSuccessPage);
-  };*/
+
+    // добавить закрытие по ескейп и клики на любое место
+
+    document.querySelector('.success__button').addEventListener('click', function () {
+      document.querySelector('.success').remove();
+    });
+  };
+
+  // ajax отправка формы
+  var UPLOAD_URL = 'https://js.dump.academy/kekstagram';
+  var uploadFormRequest = function (data, onSuccess, onError) {
+    var uploadForm = new XMLHttpRequest();
+    uploadForm.responseType = 'json';
+    uploadForm.addEventListener('load', function () {
+      if (uploadForm.status === 200) {
+        onSuccess();
+      } else {
+        onError();
+      }
+    });
+    uploadForm.open('POST', UPLOAD_URL);
+    uploadForm.send(data);
+  };
 
   var onUploadPhotoFormSubmit = function (evt) {
-    evt.preventDefault();
     if (window.uploadPhotoForm.reportValidity()) {
-      window.uploadPhotoForm.submit();
+      uploadFormRequest(new FormData(window.uploadPhotoForm), uploadPhotoSuccessfully, window.errorLoadPhotoGallery);
     }
+    evt.preventDefault();
   };
   // отправка по клику
-  // formSubmitButton.addEventListener('submit', onFormSubmit);
   window.uploadPhotoForm.addEventListener('submit', onUploadPhotoFormSubmit);
 
   // отправка формы при нажатии на кнопку ENTER
@@ -74,4 +96,6 @@
     }
   };
   formSubmitButton.addEventListener('keydown', onformSubmitPress);
+
+
 })();

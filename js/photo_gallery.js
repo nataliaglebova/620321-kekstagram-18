@@ -63,12 +63,18 @@
   // функция по отрисовке ошибки загрузки фотографии
 
   window.errorLoadPhotoGallery = function () {
+    // окно ошибки
     var errorTemplate = document.querySelector('#error').content
       .querySelector('.error');
     var errorElement = errorTemplate.cloneNode(true);
     var fragmentError = document.createDocumentFragment();
     fragmentError.appendChild(errorElement);
-    window.setupPhotoCard.appendChild(fragmentError);
+    document.querySelector('main').appendChild(fragmentError);
+    var errorCloseButton = document.querySelector('.error__button');
+    // закрытие окна
+    errorCloseButton.addEventListener('click', function () {
+      document.querySelector('.error').remove();
+    });
   };
 }
 )();
