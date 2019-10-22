@@ -46,7 +46,12 @@
       window.socialComments.removeChild(document.querySelector('.social__comments').firstChild);
     }
     var currentArrowElem = arr[x];
-    for (var c = 0; c < window.generalData.COMMENTS_NUMBER; c++) {
+    if (currentArrowElem.comments.length > window.generalData.COMMENTS_NUMBER) {
+      var commentsAmmount = window.generalData.COMMENTS_NUMBER;
+    } else {
+      commentsAmmount = currentArrowElem.comments.length;
+    }
+    for (var c = 0; c < commentsAmmount; c++) {
       var photoСommentElement = commentsTemplate.cloneNode(true);
       photoСommentElement.querySelector('.social__picture').src = currentArrowElem.comments[c].avatar;
       photoСommentElement.querySelector('.social__picture').alt = currentArrowElem.comments[c].name;
