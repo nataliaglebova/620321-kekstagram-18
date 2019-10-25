@@ -38,6 +38,7 @@
     return photoСommentElement;
   };*/
   // функция по генерации фото в галлереи
+  window.filters = document.querySelector('.img-filters');
   window.socialComments = document.querySelector('.social__comments');
 
   window.renderPhotoСomments = function (arr, x) {

@@ -9,9 +9,9 @@
 
     loadPhotoRequest.addEventListener('load', function () {
       if (loadPhotoRequest.status === 200) {
+        window.filters.classList.remove('img-filters--inactive');
         window.photoData.photoCardItems = loadPhotoRequest.response;
         window.createPhotoGallery(window.photoData.photoCardItems);
-      // window.insertPhotoСomments(window.photoData.photoCardItems);
       } else {
         window.errorLoadPhotoGallery();
       }
