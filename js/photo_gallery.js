@@ -18,7 +18,7 @@
   window.setupPhotoCard = document.querySelector('.pictures');
   window.createPhotoGallery = function (arr) {
     var fragment = document.createDocumentFragment();
-    for (var k = 0; k < window.generalData.PHOTOCARDS_MAX; k++) {
+    for (var k = 0; k < arr.length; k++) {
       fragment.appendChild(renderPhotoCard(arr, k));
       window.setupPhotoCard.appendChild(fragment);
     }
