@@ -16,8 +16,13 @@
       window.bigPhotoCard.querySelector('.comments-count').textContent = currentPhoto.comments.length;
       window.bigPhotoCard.querySelector('.social__caption').textContent = currentPhoto.description;
       window.bigPhotoCard.querySelector('.big-picture img').alt = currentPhoto.description;
-      window.renderPhotoСomments(window.photoData.photoCardItems, elementIndex);
-
+      if (currentPhoto.comments.length > window.generalData.FIRST_COMMENTS_NUMBER) {
+        var commentsAmmount = window.generalData.FIRST_COMMENTS_NUMBER;
+      } else {
+        commentsAmmount = currentPhoto.comments.length;
+      }
+      window.renderPhotoСomments(window.photoData.photoCardItems, elementIndex, commentsAmmount);
+      window.extraCommentsLoadButton.addEventListener('click', window.onExtraCommentsLoadButtonClick);
     }
   };
   // -- по ENTER
