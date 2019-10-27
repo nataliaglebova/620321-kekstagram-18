@@ -11,7 +11,7 @@
       if (loadPhotoRequest.status === 200) {
         window.photoData.photoCardItems = loadPhotoRequest.response;
         window.createPhotoGallery(window.photoData.photoCardItems);
-      // window.insertPhotoСomments(window.photoData.photoCardItems);
+        window.sortPhotogallery();
       } else {
         window.errorLoadPhotoGallery();
       }
