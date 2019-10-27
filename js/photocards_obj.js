@@ -3,7 +3,7 @@
 (function () {
   // создание массива объектов комментариев
   var commentsList = [];
-  for (var i = 0; i < window.generalData.PHOTOCARDS_MAX * window.generalData.COMMENTS_NUMBER; i++) {
+  for (var i = 0; i < window.generalData.PHOTOCARDS_MAX * window.generalData.FIRST_COMMENTS_NUMBER; i++) {
     commentsList [i] = {
       avatar: 'img/avatar-' + (window.generalData.getRandomNumber(1, 6)) + '.svg',
       message: window.generalData.getRandomElement(window.generalData.commentsTemplates),
@@ -12,7 +12,7 @@
   }
   // массив комментариев к одному фото
   var onePhotoComments = [];
-  for (var n = 0; n < window.generalData.COMMENTS_NUMBER; n++) {
+  for (var n = 0; n < window.generalData.FIRST_COMMENTS_NUMBER; n++) {
     onePhotoComments[n] = window.generalData.getRandomElement(commentsList);
   }
 
