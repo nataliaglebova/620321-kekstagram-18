@@ -57,5 +57,4 @@
       window.bigPhotoCard.classList.add('hidden');
     }
   });
-
 })();

@@ -9,6 +9,7 @@
   var closePhotoEditor = function () {
     window.photoEditor.classList.add('hidden');
     window.uploadPhotoForm.reset();
+    window.deleteEffect();
   };
   // функция закрытия по ESC
   var hashTagsInput = window.photoEditor.querySelector('.text__hashtags');
@@ -62,11 +63,10 @@
     customPhoto.classList.add('effects__preview--heat');
   });
 
-  var deleteEffect = function () {
-  // выдает ошибку если значений более 1
+  window.deleteEffect = function () {
     customPhoto.classList.remove('effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat');
   };
-  noneEffect.addEventListener('click', deleteEffect);
+  noneEffect.addEventListener('click', window.deleteEffect);
 
   // изменение эффекта
   var EFFECT_MAX_SCALE = 454;
@@ -146,5 +146,20 @@
     }
     sizeImg = currentSize;
     onResizeButtonsClick(sizeImg);
+  });
+
+  // отображение загружаемого фото
+  var photoInput = document.querySelector('.img-upload__input');
+  photoInput.addEventListener('change', function () {
+    var uploadedPhoto = photoInput.files[0];
+    var reader = new FileReader();
+    if (uploadedPhoto) {
+      reader.readAsDataURL(uploadedPhoto);
+    } else {
+      customPhoto.src = '';
+    }
+    reader.addEventListener('load', function () {
+      customPhoto.src = reader.result;
+    });
   });
 })();

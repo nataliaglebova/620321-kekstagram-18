@@ -61,6 +61,7 @@
 
     document.querySelector('.success__button').addEventListener('click', function () {
       document.querySelector('.success').remove();
+      window.deleteEffect();
     });
   };
 
