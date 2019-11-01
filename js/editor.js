@@ -46,26 +46,34 @@
   var phobosPreview = window.photoEditor.querySelector('#effect-phobos');
   var heatPreview = window.photoEditor.querySelector('#effect-heat');
   var noneEffect = window.photoEditor.querySelector('#effect-none');
+  var effectLevelValue = window.photoEditor.querySelector('.effect-level__value');
+  var prepareFilterApplicate = function () {
+    effectSlider.classList.remove('hidden');
+    customPhoto.classList.remove('effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat');
+    effectPin.style.left = window.generalData.EFFECT_MAX_SCALE + 'px';
+    effectLine.style.width = window.generalData.EFFECT_MAX_SCALE + 'px';
+    customPhoto.style = 'none';
+  };
 
   // применение фильтров при выборе превью
   chromePreview.addEventListener('click', function () {
-    effectSlider.classList.remove('hidden');
+    prepareFilterApplicate();
     customPhoto.classList.add('effects__preview--chrome');
   });
   sepiaPreview.addEventListener('click', function () {
-    effectSlider.classList.remove('hidden');
+    prepareFilterApplicate();
     customPhoto.classList.add('effects__preview--sepia');
   });
   marvinPreview.addEventListener('click', function () {
-    effectSlider.classList.remove('hidden');
+    prepareFilterApplicate();
     customPhoto.classList.add('effects__preview--marvin');
   });
   phobosPreview.addEventListener('click', function () {
-    effectSlider.classList.remove('hidden');
+    prepareFilterApplicate();
     customPhoto.classList.add('effects__preview--phobos');
   });
   heatPreview.addEventListener('click', function () {
-    effectSlider.classList.remove('hidden');
+    prepareFilterApplicate();
     customPhoto.classList.add('effects__preview--heat');
   });
 
@@ -76,7 +84,6 @@
   noneEffect.addEventListener('click', window.deleteEffect);
 
   // изменение эффекта
-  var EFFECT_MAX_SCALE = 454;
   var effectLine = window.photoEditor.querySelector('.effect-level__depth');
   // передвижение пина эффектов
   effectPin.addEventListener('mousedown', function (evt) {
@@ -96,8 +103,8 @@
       if ((effectPin.offsetLeft - shift.x) < 0) {
         effectPin.style.left = 0 + 'px';
       } else {
-        if ((effectPin.offsetLeft - shift.x) > EFFECT_MAX_SCALE) {
-          effectPin.style.left = EFFECT_MAX_SCALE + 'px';
+        if ((effectPin.offsetLeft - shift.x) > window.generalData.EFFECT_MAX_SCALE) {
+          effectPin.style.left = window.generalData.EFFECT_MAX_SCALE + 'px';
         } else {
           effectPin.style.left = (effectPin.offsetLeft - shift.x) + 'px';
         }
@@ -105,7 +112,8 @@
       effectLine.style.width = effectPin.offsetLeft + 'px';
     };
     var calculateEffectValue = function (upevt, minValue, maxValue) {
-      var effectValue = minValue + (maxValue - minValue) / (EFFECT_MAX_SCALE / effectPin.offsetLeft);
+      var effectValue = minValue + (maxValue - minValue) / (window.generalData.EFFECT_MAX_SCALE / effectPin.offsetLeft);
+      effectLevelValue.value = effectValue;
       return effectValue;
     };
     var onPinMouseUp = function (upevt) {
