@@ -23,20 +23,10 @@
       window.setupPhotoCard.appendChild(fragment);
     }
   };
-  // window.createPhotoGallery(window.photoData.photoCardItems);
-
   // разметка комментариев
   // обращение к шаблону верстки карточки фото
   var commentsTemplate = document.querySelector('.social__comment');
 
-  // функция для копирования и вставки типовых комментариев
-  /*  var renderPhotoСomments = function (c) {
-    var photoСommentElement = commentsTemplate.cloneNode(true);
-    photoСommentElement.querySelector('.social__picture').src = 'img/avatar-' + window.generalData.getRandomNumber(1, 6) + '.svg';
-    photoСommentElement.querySelector('.social__picture').alt = window.photoData.onePhotoComments[c].name;
-    photoСommentElement.querySelector('.social__text').textContent = window.photoData.onePhotoComments[c].message;
-    return photoСommentElement;
-  };*/
   // функция по генерации фото в галлереи
   window.filters = document.querySelector('.img-filters');
   window.socialComments = document.querySelector('.social__comments');
@@ -68,16 +58,13 @@
     cleanPatternComments();
     window.currentArrowElem = arr[x];
     if (window.currentArrowElem.comments.length <= window.generalData.FIRST_COMMENTS_NUMBER) {
-      window.extraCommentsLoadButton.classList.add('visually-hidden');
+      window.extraCommentsLoadButton.classList.add('hidden');
     } else {
-      window.extraCommentsLoadButton.classList.remove('visually-hidden');
+      window.extraCommentsLoadButton.classList.remove('hidden');
     }
     loadComments(window.currentArrowElem, commentsNumber, 0);
     return window.currentArrowElem;
   };
-  // скрытие блока счетчика комментариев
-  window.bigPhotoCard.querySelector('.social__comment-count').classList.add('visually-hidden');
-
   // функция по подгрузке оставшихся коммаентариев
   window.onExtraCommentsLoadButtonClick = function () {
     if (window.currentArrowElem.comments.length > window.indexOfComment + window.generalData.FIRST_COMMENTS_NUMBER) {
@@ -85,6 +72,8 @@
     } else {
       var remainComments = window.currentArrowElem.comments.length - window.indexOfComment;
       loadComments(window.currentArrowElem, window.indexOfComment + remainComments, window.indexOfComment + 1);
+      window.bigPhotoCard.querySelector('.social__comment-count').classList.add('hidden');
+      window.extraCommentsLoadButton.classList.add('hidden');
     }
   };
 

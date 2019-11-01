@@ -2,9 +2,11 @@
 (function () {
   // открытие увеличенного каждого фото
   // -- по клику
+  var mainBody = document.querySelector('body');
   var onPhotoImgClick = function (clckevt) {
     if (clckevt.target.tagName === 'IMG') {
       window.bigPhotoCard.classList.remove('hidden');
+      mainBody.classList.add('modal-open');
       var photoFileName = clckevt.target.src.split('/').pop();
       var photoUrl = 'photos/' + photoFileName;
       var currentPhoto = window.photoData.photoCardItems.find(function (item) {
@@ -30,6 +32,7 @@
     if (presevt.keyCode === window.generalData.ENTER_KEYCODE) {
       if (presevt.target.tagName === 'A') {
         window.bigPhotoCard.classList.remove('hidden');
+        document.querySelector('body').classList.add('modal-open');
         var loadPhoto = presevt.target.querySelector('img');
         var photoFileName = loadPhoto.src.split('/').pop();
         var photoUrl = 'photos/' + photoFileName;
@@ -51,10 +54,12 @@
   var bigPhotoExit = window.bigPhotoCard.querySelector('.big-picture__cancel');
   bigPhotoExit.addEventListener('click', function () {
     window.bigPhotoCard.classList.add('hidden');
+    mainBody.classList.remove('modal-open');
   });
   document.addEventListener('keydown', function (evt) {
     if (evt.keyCode === window.generalData.ESC_KEYCODE) {
       window.bigPhotoCard.classList.add('hidden');
+      mainBody.classList.remove('modal-open');
     }
   });
 })();
