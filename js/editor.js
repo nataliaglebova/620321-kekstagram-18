@@ -39,6 +39,7 @@
   // применение эффекта для изображения
   var effectPin = window.photoEditor.querySelector('.effect-level__pin');
   var customPhoto = window.photoEditor.querySelector('.img-upload__preview img');
+  var effectSlider = window.photoEditor.querySelector('.img-upload__effect-level');
   var chromePreview = window.photoEditor.querySelector('#effect-chrome');
   var sepiaPreview = window.photoEditor.querySelector('#effect-sepia');
   var marvinPreview = window.photoEditor.querySelector('#effect-marvin');
@@ -48,23 +49,29 @@
 
   // применение фильтров при выборе превью
   chromePreview.addEventListener('click', function () {
+    effectSlider.classList.remove('hidden');
     customPhoto.classList.add('effects__preview--chrome');
   });
   sepiaPreview.addEventListener('click', function () {
+    effectSlider.classList.remove('hidden');
     customPhoto.classList.add('effects__preview--sepia');
   });
   marvinPreview.addEventListener('click', function () {
+    effectSlider.classList.remove('hidden');
     customPhoto.classList.add('effects__preview--marvin');
   });
   phobosPreview.addEventListener('click', function () {
+    effectSlider.classList.remove('hidden');
     customPhoto.classList.add('effects__preview--phobos');
   });
   heatPreview.addEventListener('click', function () {
+    effectSlider.classList.remove('hidden');
     customPhoto.classList.add('effects__preview--heat');
   });
 
   window.deleteEffect = function () {
     customPhoto.classList.remove('effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat');
+    effectSlider.classList.add('hidden');
   };
   noneEffect.addEventListener('click', window.deleteEffect);
 

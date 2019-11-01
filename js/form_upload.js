@@ -6,24 +6,31 @@
 
   // функция валидации тэгов
   var validateTags = function (arr, textInput) {
+    textInput.style.outline = 'none';
     textInput.setCustomValidity('');
     for (var x = 0; x < arr.length; x++) {
       for (var y = x + 1; y < arr.length; y++) {
         if (arr[x] === arr[y]) {
           textInput.setCustomValidity('Хэш-тэги не должны повторяться');
+          textInput.style.outline = 'thick solid red';
         }
       }
       if (arr[x] === '#') {
+        textInput.style.outline = '2px solid red';
         textInput.setCustomValidity('Хэш-тэг не должен состоять только из символа #');
       } if (arr[x].length > 20) {
+        textInput.style.outline = '2px solid red';
         textInput.setCustomValidity('Хэш-тэг не должен быть длинее 20 символов, включая #');
       } if (arr[x].charAt(0) !== '#') {
+        textInput.style.outline = '2px solid red';
         textInput.setCustomValidity('Хэш-тэг должен начинаться с символа #');
       } if (arr[x] === ' ') {
+        textInput.style.outline = '2px solid red';
         textInput.setCustomValidity('Хэш-тэги должны разделяться только одним пробелом');
       }
     }
     if (arr.length > window.generalData.MAX_TAGS) {
+      textInput.style.outline = '2px solid red';
       textInput.setCustomValidity('Нельзя указать больше пяти хэш-тегов');
     }
   };
@@ -40,6 +47,7 @@
   var onCommentsFieldChange = function () {
     commentsField.setCustomValidity('');
     if (commentsField.value.length > window.generalData.DESCRIPTION_MAX_LENGTH) {
+      commentsField.style.outline = '2px solid red';
       commentsField.setCustomValidity('Длина комментария не может составлять больше 140 символов');
     }
   };
