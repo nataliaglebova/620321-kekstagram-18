@@ -92,6 +92,9 @@
         return item.url === photoUrl;
       });
       fillInfoPhotoPreview(currentPhoto);
+      bigPhotoExit.addEventListener('click', onBigPhotoExitClick);
+      document.addEventListener('keydown', onBigPhotoExitPress);
+      bigPhotoExit.removeEventListener('keydown', onBigPhotoExitEnter);
     }
   };
   // -- по ENTER
@@ -107,6 +110,9 @@
           return item.url === photoUrl;
         });
         fillInfoPhotoPreview(currentPhoto);
+        bigPhotoExit.addEventListener('click', onBigPhotoExitClick);
+        document.addEventListener('keydown', onBigPhotoExitPress);
+        bigPhotoExit.removeEventListener('keydown', onBigPhotoExitEnter);
       }
     }
   };
@@ -135,9 +141,4 @@
       bigPhotoExit.removeEventListener('keydown', onBigPhotoExitEnter);
     }
   };
-
-  bigPhotoExit.addEventListener('click', onBigPhotoExitClick);
-  document.addEventListener('keydown', onBigPhotoExitPress);
-  bigPhotoExit.removeEventListener('keydown', onBigPhotoExitEnter);
-
 })();
