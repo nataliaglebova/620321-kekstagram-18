@@ -14,7 +14,7 @@
       }
       lastTimeout = window.setTimeout(function () {
         f.apply(null, parameters);
-      }, window.generalData.DEBOUNCE_TIME);
+      }, window.GeneralData.DEBOUNCE_TIME);
     };
   };
 
@@ -69,7 +69,7 @@
   };
 
 
-  window.sortPhotogallery = function () {
+  window.sortPhotoGallery = function () {
     window.filters.classList.remove('img-filters--inactive');
   };
   popularFilterButton.addEventListener('click', onPopularButtonClick);
