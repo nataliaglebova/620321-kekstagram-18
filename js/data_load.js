@@ -8,7 +8,7 @@
     loadPhotoRequest.send();
 
     loadPhotoRequest.addEventListener('load', function () {
-      if (loadPhotoRequest.status === 200) {
+      if (loadPhotoRequest.status === window.GeneralData.LOAD_SUCCESS_CODE) {
         window.photoData.photoCardItems = loadPhotoRequest.response;
         window.createPhotoGallery(window.photoData.photoCardItems);
         window.sortPhotoGallery();
@@ -16,10 +16,11 @@
         window.errorLoadPhotoGallery();
       }
     });
+
     loadPhotoRequest.addEventListener('timeout', function () {
       window.errorLoadPhotoGallery();
     });
-    loadPhotoRequest.timeout = 10000; // 10s
+    loadPhotoRequest.timeout = window.GeneralData.LOAD_TIMEOUT; // 10s
   };
   loadPhotoGallery();
 })();

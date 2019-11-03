@@ -17,14 +17,14 @@
   var hashTagsInput = window.photoEditor.querySelector('.text__hashtags');
   var descriptionInput = window.photoEditor.querySelector('.text__description');
   var onPhotoEditorPress = function (evt) {
-    if (evt.keyCode === window.generalData.ESC_KEYCODE && ((evt.target !== hashTagsInput) && (evt.target !== descriptionInput))) {
+    if (evt.keyCode === window.GeneralData.ESC_KEYCODE && ((evt.target !== hashTagsInput) && (evt.target !== descriptionInput))) {
       closePhotoEditor();
     }
   };
 
   // функция закрытия по ENTER
   var onEditorExitPress = function (evt) {
-    if (evt.keyCode === window.generalData.ENTER_KEYCODE) {
+    if (evt.keyCode === window.GeneralData.ENTER_KEYCODE) {
       closePhotoEditor();
     }
   };
@@ -54,8 +54,8 @@
   var prepareFilterApplicate = function () {
     effectSlider.classList.remove('hidden');
     customPhoto.classList.remove('effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat');
-    effectPin.style.left = window.generalData.EFFECT_MAX_SCALE + 'px';
-    effectLine.style.width = window.generalData.EFFECT_MAX_SCALE + 'px';
+    effectPin.style.left = window.GeneralData.EFFECT_MAX_SCALE + 'px';
+    effectLine.style.width = window.GeneralData.EFFECT_MAX_SCALE + 'px';
     customPhoto.style = 'none';
   };
 
@@ -107,8 +107,8 @@
       if ((effectPin.offsetLeft - shift.x) < 0) {
         effectPin.style.left = 0 + 'px';
       } else {
-        if ((effectPin.offsetLeft - shift.x) > window.generalData.EFFECT_MAX_SCALE) {
-          effectPin.style.left = window.generalData.EFFECT_MAX_SCALE + 'px';
+        if ((effectPin.offsetLeft - shift.x) > window.GeneralData.EFFECT_MAX_SCALE) {
+          effectPin.style.left = window.GeneralData.EFFECT_MAX_SCALE + 'px';
         } else {
           effectPin.style.left = (effectPin.offsetLeft - shift.x) + 'px';
         }
@@ -116,7 +116,7 @@
       effectLine.style.width = effectPin.offsetLeft + 'px';
     };
     var calculateEffectValue = function (upevt, minValue, maxValue) {
-      var effectValue = minValue + (maxValue - minValue) / (window.generalData.EFFECT_MAX_SCALE / effectPin.offsetLeft);
+      var effectValue = minValue + (maxValue - minValue) / (window.GeneralData.EFFECT_MAX_SCALE / effectPin.offsetLeft);
       effectLevelValue.value = effectValue;
       return effectValue;
     };
@@ -139,6 +139,7 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onPinMouseUp);
   });
+
   // изменение размера изображения
   var smallerImgButton = window.photoEditor.querySelector('.scale__control--smaller');
   var biggerImgButton = window.photoEditor.querySelector('.scale__control--bigger');
@@ -151,17 +152,17 @@
     scaleInput.setAttribute('value', size + '%');
   };
   smallerImgButton.addEventListener('click', function () {
-    var currentSize = sizeImg - window.generalData.SIZE_PHOTO_STEP;
-    if (currentSize <= window.generalData.SIZE_PHOTO_STEP) {
-      currentSize = window.generalData.SIZE_PHOTO_STEP;
+    var currentSize = sizeImg - window.GeneralData.SIZE_PHOTO_STEP;
+    if (currentSize <= window.GeneralData.SIZE_PHOTO_STEP) {
+      currentSize = window.GeneralData.SIZE_PHOTO_STEP;
     }
     sizeImg = currentSize;
     onResizeButtonsClick(sizeImg);
   });
   biggerImgButton.addEventListener('click', function () {
-    var currentSize = sizeImg + window.generalData.SIZE_PHOTO_STEP;
-    if (currentSize >= window.generalData.MAX_SIZE_PHOTO) {
-      currentSize = window.generalData.MAX_SIZE_PHOTO;
+    var currentSize = sizeImg + window.GeneralData.SIZE_PHOTO_STEP;
+    if (currentSize >= window.GeneralData.MAX_SIZE_PHOTO) {
+      currentSize = window.GeneralData.MAX_SIZE_PHOTO;
     }
     sizeImg = currentSize;
     onResizeButtonsClick(sizeImg);

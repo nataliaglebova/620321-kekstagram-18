@@ -23,8 +23,10 @@
   var DESCRIPTION_MAX_LENGTH = 140;
   var DEBOUNCE_TIME = 500; // ms
   var EFFECT_MAX_SCALE = 454; // px
+  var LOAD_SUCCESS_CODE = 200;
+  var LOAD_TIMEOUT = 10000;
 
-  window.generalData = {
+  window.GeneralData = {
     commentsTemplates: commentsTemplates,
     getRandomNumber: getRandomNumber,
     getRandomElement: getRandomElement,
@@ -39,5 +41,7 @@
     DESCRIPTION_MAX_LENGTH: DESCRIPTION_MAX_LENGTH,
     DEBOUNCE_TIME: DEBOUNCE_TIME,
     EFFECT_MAX_SCALE: EFFECT_MAX_SCALE,
+    LOAD_SUCCESS_CODE: LOAD_SUCCESS_CODE,
+    LOAD_TIMEOUT: LOAD_TIMEOUT
   };
 })();

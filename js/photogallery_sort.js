@@ -14,7 +14,7 @@
       }
       lastTimeout = window.setTimeout(function () {
         f.apply(null, parameters);
-      }, window.generalData.DEBOUNCE_TIME);
+      }, window.GeneralData.DEBOUNCE_TIME);
     };
   };
 
