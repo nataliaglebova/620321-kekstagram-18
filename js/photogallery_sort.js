@@ -69,7 +69,7 @@
   };
 
 
-  window.sortPhotogallery = function () {
+  window.sortPhotoGallery = function () {
     window.filters.classList.remove('img-filters--inactive');
   };
   popularFilterButton.addEventListener('click', onPopularButtonClick);

@@ -11,11 +11,15 @@
       if (loadPhotoRequest.status === 200) {
         window.photoData.photoCardItems = loadPhotoRequest.response;
         window.createPhotoGallery(window.photoData.photoCardItems);
-        window.sortPhotogallery();
+        window.sortPhotoGallery();
       } else {
         window.errorLoadPhotoGallery();
       }
     });
+    loadPhotoRequest.addEventListener('timeout', function () {
+      window.errorLoadPhotoGallery();
+    });
+    loadPhotoRequest.timeout = 10000; // 10s
   };
   loadPhotoGallery();
 })();

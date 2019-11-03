@@ -22,8 +22,7 @@
   var MAX_TAGS = 5;
   var DESCRIPTION_MAX_LENGTH = 140;
   var DEBOUNCE_TIME = 500; // ms
-  var EFFECT_MAX_SCALE = 454;
-  window.bigPhotoCard = document.querySelector('.big-picture');
+  var EFFECT_MAX_SCALE = 454; // px
 
   window.generalData = {
     commentsTemplates: commentsTemplates,
@@ -39,6 +38,6 @@
     MAX_TAGS: MAX_TAGS,
     DESCRIPTION_MAX_LENGTH: DESCRIPTION_MAX_LENGTH,
     DEBOUNCE_TIME: DEBOUNCE_TIME,
-    EFFECT_MAX_SCALE: EFFECT_MAX_SCALE
+    EFFECT_MAX_SCALE: EFFECT_MAX_SCALE,
   };
 })();

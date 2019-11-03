@@ -24,6 +24,7 @@
     }
   };
   // разметка комментариев
+  window.bigPhotoCard = document.querySelector('.big-picture');
   // обращение к шаблону верстки карточки фото
   var commentsTemplate = document.querySelector('.social__comment');
 

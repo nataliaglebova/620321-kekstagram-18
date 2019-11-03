@@ -5,12 +5,14 @@
   window.photoEditor = document.querySelector('.img-upload__overlay');
   // сброс значения поля выбора
   window.uploadPhotoForm = window.setupPhotoCard.querySelector('.img-upload__form');
-  // функция закрытия окна
+
+  // функция закрытия окна редактора
   var closePhotoEditor = function () {
     window.photoEditor.classList.add('hidden');
     window.uploadPhotoForm.reset();
     window.deleteEffect();
   };
+
   // функция закрытия по ESC
   var hashTagsInput = window.photoEditor.querySelector('.text__hashtags');
   var descriptionInput = window.photoEditor.querySelector('.text__description');
@@ -19,12 +21,14 @@
       closePhotoEditor();
     }
   };
+
   // функция закрытия по ENTER
   var onEditorExitPress = function (evt) {
     if (evt.keyCode === window.generalData.ENTER_KEYCODE) {
       closePhotoEditor();
     }
   };
+
   // функция открытия окна редактора
   var openPhotoEditor = function () {
     window.photoEditor.classList.remove('hidden');

@@ -57,19 +57,39 @@
   var formSubmitButton = window.uploadPhotoForm.querySelector('.img-upload__submit');
   var successPageTemplate = document.querySelector('#success').content
   .querySelector('.success');
+
+  var onSuccessCloseClick = function () {
+    document.querySelector('.success').remove();
+    window.uploadPhotoForm.reset();
+  };
+  // окно  сообщения об ожидании завершения отправки
+  var waitMessageTemplate = document.querySelector('#messages').content
+  .querySelector('.img-upload__message');
+  var showWaitMessageBlock = function () {
+    var fragmentWaitMessageBlock = document.createDocumentFragment();
+    var waitingMessage = waitMessageTemplate.cloneNode(true);
+    fragmentWaitMessageBlock.appendChild(waitingMessage);
+    document.querySelector('main').appendChild(fragmentWaitMessageBlock);
+  };
+
   // сообщение об успешной загрузке фотографии
   var uploadPhotoSuccessfully = function () {
     document.querySelector('.img-upload__overlay').classList.add('hidden');
+    document.querySelector('.img-upload__message--loading').remove();
     var fragmentSuccessPage = document.createDocumentFragment();
     var successPage = successPageTemplate.cloneNode(true);
     fragmentSuccessPage.appendChild(successPage);
     document.querySelector('main').appendChild(fragmentSuccessPage);
-
-    // добавить закрытие по ескейп и клики на любое место
-
-    document.querySelector('.success__button').addEventListener('click', function () {
-      document.querySelector('.success').remove();
-      window.deleteEffect();
+    document.querySelector('.success__button').addEventListener('click', onSuccessCloseClick);
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.generalData.ESC_KEYCODE) {
+        onSuccessCloseClick();
+      }
+    });
+    document.addEventListener('click', function (evt) {
+      if (document.contains(document.querySelector('.success')) && evt.target !== document.querySelector('.success__inner')) {
+        onSuccessCloseClick();
+      }
     });
   };
 
@@ -91,6 +111,7 @@
 
   var onUploadPhotoFormSubmit = function (evt) {
     if (window.uploadPhotoForm.reportValidity()) {
+      showWaitMessageBlock();
       uploadFormRequest(new FormData(window.uploadPhotoForm), uploadPhotoSuccessfully, window.errorLoadPhotoGallery);
     }
     evt.preventDefault();
