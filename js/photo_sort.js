@@ -3,6 +3,7 @@
   var popularFilterButton = window.filters.querySelector('#filter-popular');
   var randomFilterButton = window.filters.querySelector('#filter-random');
   var discussedFilterButton = window.filters.querySelector('#filter-discussed');
+  var DEBOUNCE_TIME = 500; // ms
 
   // функция debounce для устранения дребезга
   var debounce = function (f) {
@@ -14,7 +15,7 @@
       }
       lastTimeout = window.setTimeout(function () {
         f.apply(null, parameters);
-      }, window.GeneralData.DEBOUNCE_TIME);
+      }, DEBOUNCE_TIME);
     };
   };
 
@@ -35,6 +36,7 @@
     }
     window.createPhotoGallery(arr);
   };
+
   // функция сортировки массива по комментариям
   var sortMostCommentedPhoto = function (arr) {
     var arrCopy = arr.slice(0);
@@ -50,22 +52,32 @@
     var shuffleGallery = shuffle(dataArr);
     updatePhotoGallery(shuffleGallery);
   };
+
   // функция для сортировки карточек по количеству комментариев
-  var sortPhotoByCommets = function (dataArr) {
+  var sortPhotoByComments = function (dataArr) {
     var discussingPhotos = sortMostCommentedPhoto(dataArr);
     updatePhotoGallery(discussingPhotos);
   };
   // функции для обработчиков
   var onPopularButtonClick = function () {
-    debounce(updatePhotoGallery(window.photoData.photoCardItems));
+    debounce(updatePhotoGallery(window.photoCardItems));
+    popularFilterButton.classList.add('img-filters__button--active');
+    randomFilterButton.classList.remove('img-filters__button--active');
+    discussedFilterButton.classList.remove('img-filters__button--active');
   };
 
   var onRandomButtonClick = function () {
-    debounce(renderRandomPhoto(window.photoData.photoCardItems));
+    debounce(renderRandomPhoto(window.photoCardItems));
+    popularFilterButton.classList.remove('img-filters__button--active');
+    randomFilterButton.classList.add('img-filters__button--active');
+    discussedFilterButton.classList.remove('img-filters__button--active');
   };
 
   var onDiscussedButtonClick = function () {
-    debounce(sortPhotoByCommets(window.photoData.photoCardItems));
+    debounce(sortPhotoByComments(window.photoCardItems));
+    popularFilterButton.classList.remove('img-filters__button--active');
+    randomFilterButton.classList.remove('img-filters__button--active');
+    discussedFilterButton.classList.add('img-filters__button--active');
   };
 
 
