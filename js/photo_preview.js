@@ -48,11 +48,9 @@
   window.onExtraCommentsLoadButtonClick = function () {
     if (window.currentArrowElem.comments.length > window.indexOfComment + FIRST_COMMENTS_NUMBER) {
       loadComments(window.currentArrowElem, window.indexOfComment + 1 + FIRST_COMMENTS_NUMBER, window.indexOfComment + 1);
-      window.bigPhotoCard.querySelector('.social__comment-count').textContent = window.indexOfComment + ' из ' + window.currentArrowElem.comments.length + ' комментариев';
     } else {
       var remainComments = window.currentArrowElem.comments.length - window.indexOfComment;
       loadComments(window.currentArrowElem, window.indexOfComment + remainComments, window.indexOfComment + 1);
-      window.bigPhotoCard.querySelector('.social__comment-count').classList.add('hidden');
       window.extraCommentsLoadButton.classList.add('hidden');
       window.extraCommentsLoadButton.removeEventListener('click', window.onExtraCommentsLoadButtonClick);
     }
@@ -88,7 +86,7 @@
       fillInfoPhotoPreview(currentPhoto);
       bigPhotoExit.addEventListener('click', onBigPhotoExitClick);
       document.addEventListener('keydown', onBigPhotoExitPress);
-      bigPhotoExit.removeEventListener('keydown', onBigPhotoExitEnter);
+      bigPhotoExit.addEventListener('keydown', onBigPhotoExitEnter);
     }
   };
   // -- по ENTER
@@ -115,7 +113,6 @@
 
   // закрытие увеличенного фото
   var onBigPhotoExitClick = function () {
-    window.bigPhotoCard.querySelector('.social__comment-count').classList.remove('hidden');
     window.bigPhotoCard.classList.add('hidden');
     mainBody.classList.remove('modal-open');
     bigPhotoExit.removeEventListener('click', onBigPhotoExitClick);
@@ -123,7 +120,6 @@
 
   var onBigPhotoExitPress = function (evt) {
     if (evt.keyCode === window.generalData.ESC_KEYCODE) {
-      window.bigPhotoCard.querySelector('.social__comment-count').classList.remove('hidden');
       window.bigPhotoCard.classList.add('hidden');
       mainBody.classList.remove('modal-open');
       document.removeEventListener('keydown', onBigPhotoExitPress);
@@ -131,7 +127,6 @@
   };
   var onBigPhotoExitEnter = function (evt) {
     if (evt.keyCode === window.generalData.ENTER_KEYCODE && evt.target === bigPhotoExit) {
-      window.bigPhotoCard.querySelector('.social__comment-count').classList.remove('hidden');
       window.bigPhotoCard.classList.add('hidden');
       mainBody.classList.remove('modal-open');
       bigPhotoExit.removeEventListener('keydown', onBigPhotoExitEnter);
