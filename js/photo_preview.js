@@ -1,7 +1,7 @@
 'use strict';
 (function () {
-  var mainBody = document.querySelector('body');
   var FIRST_COMMENTS_NUMBER = 5;
+  var mainBody = document.querySelector('body');
   window.bigPhotoCard = document.querySelector('.big-picture');
   var commentsTemplate = document.querySelector('.social__comment');
   window.extraCommentsLoadButton = window.bigPhotoCard.querySelector('.social__comments-loader');
@@ -48,9 +48,11 @@
   window.onExtraCommentsLoadButtonClick = function () {
     if (window.currentArrowElem.comments.length > window.indexOfComment + FIRST_COMMENTS_NUMBER) {
       loadComments(window.currentArrowElem, window.indexOfComment + 1 + FIRST_COMMENTS_NUMBER, window.indexOfComment + 1);
+      window.bigPhotoCard.querySelector('.social__comment-count').textContent = window.indexOfComment + 1 + ' из ' + window.currentArrowElem.comments.length + ' комментариев';
     } else {
       var remainComments = window.currentArrowElem.comments.length - window.indexOfComment;
       loadComments(window.currentArrowElem, window.indexOfComment + remainComments, window.indexOfComment + 1);
+      window.bigPhotoCard.querySelector('.social__comment-count').textContent = window.indexOfComment + 1 + ' из ' + window.currentArrowElem.comments.length + ' комментариев';
       window.extraCommentsLoadButton.classList.add('hidden');
       window.extraCommentsLoadButton.removeEventListener('click', window.onExtraCommentsLoadButtonClick);
     }
@@ -63,7 +65,7 @@
     var elementIndex = window.photoCardItems.indexOf(currentPhoto);
     window.bigPhotoCard.querySelector('.big-picture img').src = currentPhoto.url;
     window.bigPhotoCard.querySelector('.likes-count').textContent = currentPhoto.likes;
-    window.bigPhotoCard.querySelector('.comments-count').textContent = currentPhoto.comments.length;
+    window.bigPhotoCard.querySelector('.social__comment-count').textContent = FIRST_COMMENTS_NUMBER + ' из ' + currentPhoto.comments.length + ' комментариев';
     window.bigPhotoCard.querySelector('.social__caption').textContent = currentPhoto.description;
     window.bigPhotoCard.querySelector('.big-picture img').alt = currentPhoto.description;
     if (currentPhoto.comments.length > FIRST_COMMENTS_NUMBER) {
