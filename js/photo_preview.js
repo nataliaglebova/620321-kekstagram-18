@@ -1,6 +1,7 @@
 'use strict';
 (function () {
   var FIRST_COMMENTS_NUMBER = 5;
+  var INDEX_STEP = 1;
   var mainBody = document.querySelector('body');
   window.bigPhotoCard = document.querySelector('.big-picture');
   var commentsTemplate = document.querySelector('.social__comment');
@@ -46,13 +47,13 @@
 
   // функция по подгрузке оставшихся комментариев
   window.onExtraCommentsLoadButtonClick = function () {
-    if (window.currentArrowElem.comments.length > window.indexOfComment + FIRST_COMMENTS_NUMBER) {
-      loadComments(window.currentArrowElem, window.indexOfComment + 1 + FIRST_COMMENTS_NUMBER, window.indexOfComment + 1);
-      window.bigPhotoCard.querySelector('.social__comment-count').textContent = window.indexOfComment + 1 + ' из ' + window.currentArrowElem.comments.length + ' комментариев';
+    if (window.currentArrowElem.comments.length > window.indexOfComment + INDEX_STEP + FIRST_COMMENTS_NUMBER) {
+      loadComments(window.currentArrowElem, window.indexOfComment + INDEX_STEP + FIRST_COMMENTS_NUMBER, window.indexOfComment + INDEX_STEP);
+      window.bigPhotoCard.querySelector('.social__comment-count').textContent = window.indexOfComment + INDEX_STEP + ' из ' + window.currentArrowElem.comments.length + ' комментариев';
     } else {
       var remainComments = window.currentArrowElem.comments.length - window.indexOfComment;
-      loadComments(window.currentArrowElem, window.indexOfComment + remainComments, window.indexOfComment + 1);
-      window.bigPhotoCard.querySelector('.social__comment-count').textContent = window.indexOfComment + 1 + ' из ' + window.currentArrowElem.comments.length + ' комментариев';
+      loadComments(window.currentArrowElem, window.indexOfComment + remainComments, window.indexOfComment + INDEX_STEP);
+      window.bigPhotoCard.querySelector('.social__comment-count').textContent = window.indexOfComment + INDEX_STEP + ' из ' + window.currentArrowElem.comments.length + ' комментариев';
       window.extraCommentsLoadButton.classList.add('hidden');
       window.extraCommentsLoadButton.removeEventListener('click', window.onExtraCommentsLoadButtonClick);
     }
