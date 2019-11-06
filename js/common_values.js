@@ -16,11 +16,11 @@
   };
 
   window.generalData = {
-    getRandomNumber: getRandomNumber,
-    getRandomElement: getRandomElement,
     ESC_KEYCODE: ESC_KEYCODE,
     ENTER_KEYCODE: ENTER_KEYCODE,
     LOAD_SUCCESS_CODE: LOAD_SUCCESS_CODE,
-    LOAD_TIMEOUT: LOAD_TIMEOUT
+    LOAD_TIMEOUT: LOAD_TIMEOUT,
+    getRandomNumber: getRandomNumber,
+    getRandomElement: getRandomElement
   };
 })();

@@ -1,9 +1,9 @@
 'use strict';
 (function () {
+  var DEBOUNCE_TIME = 500; // ms
   var popularFilterButton = window.filters.querySelector('#filter-popular');
   var randomFilterButton = window.filters.querySelector('#filter-random');
   var discussedFilterButton = window.filters.querySelector('#filter-discussed');
-  var DEBOUNCE_TIME = 500; // ms
 
   // функция debounce для устранения дребезга
   var debounce = function (f) {
